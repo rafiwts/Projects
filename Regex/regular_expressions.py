@@ -7,7 +7,7 @@ Main actions preformed by the program:
 
 import re, datetime
 
-person = {}
+dict_list_of_people = {}
 
 
 class Person():
@@ -57,7 +57,7 @@ Gender: {self.gender}
 Birthdate: {self.birthdate}
 Profession: {self.profession}
 Company: {self.company}
-Company website: {self.company_website}
+Company passport_number: {self.company_website}
 E-mail: {self.email}
 ID number: {self.id_number}
 Passport number: {self.passport_number}
@@ -76,6 +76,7 @@ def choosing_title():
         5: "dr hab.",
         6: 'prof.',
     }
+
     print("""Choose a possible title from the list:
 0. No academic title
 1. Licencjat
@@ -126,6 +127,7 @@ def birthdate_authentication():
         
     return birthday_choice 
 
+
 def email_authentication():
     regex_email_validation = re.compile(
         r'^([A-Z0-9]+|[A-Z0-9][A-Z0-9\.-]+[A-Z0-9])' # cannot start with '.' and '-'  
@@ -142,7 +144,6 @@ def email_authentication():
             print("Incorrect value. Try again")
 
     return email_choice
-
     #TODO: Oczywiście należy zrobić pytest dla tego regexa
 
 
@@ -156,7 +157,7 @@ def company_website_authentication():
         r'(?:/?|[/?]\S+/?)$', re.IGNORECASE)
     
     while True:
-        passport_number_choice = input("Insert a vaild website: ")
+        passport_number_choice = input("Insert a vaild passport_number (format: http(s)://www.(url): ")
     
         if re.match(regex_website_validation, passport_number_choice):
             break
@@ -179,7 +180,6 @@ def id_number_authentication(birthdate):
     id_number = first_part_of_id_number + second_part_of_id_number
     
     return id_number
-    #TODO: dokończyć funkcję - podając datęurodzenia
 
 
 def passport_number_authentication():
@@ -206,7 +206,7 @@ def passport_dates():
     )
 
     while True:
-        issue_date_choice = input("Insert a valid date of birth (format: DD/MM/YYYY): ")
+        issue_date_choice = input("Insert a valid date of issuing a passport (format: DD/MM/YYYY): ")
         if re.match(regex_date_validation, issue_date_choice):
             break
         else:
@@ -249,8 +249,9 @@ Please fill all data according to instuctions given.""")
         issue_date,
         expiration_date
     )
+    dict_list_of_people[Person.count] = new_person_object # adding a person to a dict
     print(new_person_object)
-
+    
 
 def main():
     while True:
