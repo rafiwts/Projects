@@ -6,8 +6,10 @@ Main actions preformed by the program:
 4. sending this to my email account - separate py-file for it"""
 
 import re, datetime
+from excel_file import *
+from email_file import *
 
-dict_list_of_people = {}
+dict_of_added_people = {}
 
 
 class Person():
@@ -64,6 +66,23 @@ Passport number: {self.passport_number}
 Issue date: {self.issue_date}
 Expiration date: {self.expiration_date}
 '''
+
+    def list_of_attributes(self):
+        return [
+            self.title, 
+            self.name, 
+            self.surname, 
+            self.gender,
+            self.birthdate,
+            self.profession,
+            self.company,
+            self.email,
+            self.company_website,
+            self.id_number,
+            self.passport_number,
+            self.issue_date,
+            self.expiration_date
+        ]
     
 
 def choosing_title():
@@ -198,6 +217,7 @@ def passport_number_authentication():
     
     return passport_number_choice
 
+
 def passport_dates():
     regex_date_validation = re.compile(
         r'(3[0-1]|[1-2]\d|0[1-9])/' # day
@@ -249,7 +269,8 @@ Please fill all data according to instuctions given.""")
         issue_date,
         expiration_date
     )
-    dict_list_of_people[Person.count] = new_person_object # adding a person to a dict
+
+    dict_of_added_people[Person.count] = new_person_object # adding a person to a dict
     print(new_person_object)
     
 
@@ -258,7 +279,11 @@ def main():
         adding_new_person = input("Do you want to add a new person to the list?(y/n): ").lower()
         if adding_new_person == "y":
             new_person()
-        elif adding_new_person == 'n':
+        elif adding_new_person == "n":
+            saving_to_excel(dict_of_added_people, excel_file)
+            sending_email(dict_of_added_people, email, email, excel_file)
+            input('''Data has been saved to an excel file and send to your e-mail
+Enter a random value to exit the program: ''')
             break
         else:
             print("Incorrect value. Try again.")
@@ -266,6 +291,5 @@ def main():
 
 main()
 
-#TODO: naprawić funkcję, która zwraca none jak się za pierwszym razem żle wpisze
-#TODO: dodać do słownika wywołania, żeby zapisywało to
-#TODO: w drugim pliki zacząć plik dodawania do excela
+#TODO: poprawić kod z funkcjami/regex - pomyśleć, jak to można usprawnić, może klasa dzieczicąca w osobnym pliku?
+#TODO: pomyśleć nad tym, jak zrobić, żeby imię i nazwisko nie przeklikiwało się
