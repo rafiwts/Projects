@@ -1,4 +1,3 @@
-
 import openpyxl
 
 excel_file = 'people.xlsx'

@@ -240,4 +240,4 @@ Enter a random value to exit the program: ''')
 
 main()
 
-#TODO: pomyśleć nad tym, jak zrobić, żeby imię i nazwisko nie przeklikiwało się
+#TODO: zmiana źle wprowadzonych danych - czy da się to jakoś łatwo zrobić, jak nie to zacząć już pytest, bo skończone (ewentualnie pomyśleć nad multithreading)
