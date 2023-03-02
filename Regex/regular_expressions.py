@@ -1,10 +1,5 @@
 import re
 
-regex_birthday_validation = re.compile(
-        r'(3[0-1]|[1-2]\d|0[1-9])/' # day
-        r'(0[1-9]|1[0-2])/' # month
-        r'(19\d{2}|20\d{2})' # year 
-    )
 
 regex_email_validation = re.compile(
         r'^([A-Z0-9]+|[A-Z0-9][A-Z0-9\.-]+[A-Z0-9])' # cannot start with '.' and '-'  
@@ -27,9 +22,15 @@ regex_passport_number_validation = re.compile(
     )
 
 regex_date_validation = re.compile(
-        r'(3[0-1]|[1-2]\d|0[1-9])/' # day
-        r'(0[1-9]|1[0-2])/' # month
-        r'(19\d{2}|20\d{2})' # year 
+        r'((3[0-1]|[1-2]\d|0[1-9])/' # days  
+        r'(01|03|05|07|08|10|12)/' # months with 31 days
+        r'(19\d{2}|20\d{2}))|' # year 
+        r'((30|[1-2]\d|0[1-9])/' # days
+        r'(04|06|09|11)/' # months with 30 days
+        r'(19\d{2}|20\d{2}))|' # year 
+        r'(([1-2]\d|0[1-9])/' # days
+        r'(02)/' # february
+        r'(19\d{2}|20\d{2}))' # year 
     )
 
 regex_string_value = re.compile(

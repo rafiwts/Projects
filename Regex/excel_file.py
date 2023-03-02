@@ -1,3 +1,6 @@
+"""Szczerze mówiąć to kompletnie mi się nie podoba sposób zapisu do excela, w szczególności
+biorąc pod uwagę podwójną pętlę, jaką stworzyłem, co powoduje, że dłużej zajmuje egzekucja programu
+Myślałem nad użyciem Multithreading do szybszej egzekucji. Czy to by się sprawdziło"""
 import openpyxl
 
 excel_file = 'people.xlsx'

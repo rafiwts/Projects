@@ -1,22 +1,20 @@
-""""This program will create a table with people using datas provided by the user
+"""This program will create a table with people using data provided by the user
 Main actions preformed by the program:
-1. gathering data - using regex
-2. sending the data to excel - separate py-file for it
-3. changing an excel into a pdf file which should be saved accordingly - separate py-file for it
-4. sending this to my email account - separate py-file for it"""
+1. saving and validating data (using regular expressions)
+2. sending the data to an excel file
+3. sending this to my email account
+In English - general comments to how the program functions
+Po polsku - moje wątpliwości, pytania :)"""
 
 import re, datetime
 from excel_file import *
 from email_file import *
 from regular_expressions import *
 
-dict_of_added_people = {}
+dict_of_added_people = {} # czy dodawanie instancji klasy do słownika, który jest poza słownikiem ma sens, czy może lepiej utworzyć metodę klasy jakąś
 
 
 class Person():
-    """the class was created to make it easier for me 
-to add a new person to a dictionary but is it really
-necesary in this case??"""
     count = 0
 
     def __init__(
@@ -111,30 +109,29 @@ def choosing_title():
     else:
         print("Incorrect value. Try again.")
         choosing_title()
- # TODO: Pytest przeprowadzić - czy rzeczywiście wartość się zgadza
 
 
 def choosing_gender():
-    gender_choice = input("Choose an appropriate gender: Male (M) or Female (F): ")
-    if gender_choice.lower() == 'male' or gender_choice.lower() == 'm':
+    gender_choice = input("Choose an appropriate gender: Male (M) or Female (F): ").lower()
+    if gender_choice == 'male' or gender_choice == 'm':
         return "Male"
-    elif gender_choice.lower() == 'female' or gender_choice.lower() == 'f':
+    elif gender_choice == 'female' or gender_choice == 'f':
         return "Female"
     else:
         print("Incorrect value. Try again")
         choosing_gender()
 
 
-def authentication_of_data(validation_pattern, user_choice):
-        
+def authentication_of_data(validation_pattern, user_choice): # this function uses regular expressions to see if the value is valid (see regular_expressions.py)
     while not re.match(validation_pattern, user_choice):
         user_choice = input("Incorrect value. Try again: ")
             
     return user_choice
-    #TODO: Oczywiście należy zrobić pytest dla tego regexa
 
 
 def birthdate_authentication(validation_pattern):
+    """The function validates the date of birth - if an inserted name
+is in the future (see an if statement) then it is not valid"""
     current_date = datetime.date.today()
 
     while True:
@@ -142,7 +139,7 @@ def birthdate_authentication(validation_pattern):
         birthday_validity = re.match(validation_pattern, birthday_choice)
 
         if birthday_validity:
-            if current_date > datetime.date(int(birthday_validity.group(3)), int(birthday_validity.group(2)), int(birthday_validity.group(1))):
+            if current_date > datetime.date(int(birthday_validity.group(3)), int(birthday_validity.group(2)), int(birthday_validity.group(1))): # if an inserted date is in the future 
                 break
             else:
                 print("The date is in future. Try again.")
@@ -153,20 +150,20 @@ def birthdate_authentication(validation_pattern):
 
 
 def id_number_authentication(birthdate):
-    day, month, year = birthdate.split('/') # variables for a date of birth given by a user
+    day, month, year = birthdate.split('/') # variables for the date of birth given by a user
     second_part_of_id_number = input("Insert a second part of an id nummer: ")
 
     if int(year) < 2000:
-        first_part_of_id_number = year[2:] + month + day # old id numbers
+        first_part_of_id_number = year[2:] + month + day # a pattern for old id numbers (before 2000)
     else:
-        first_part_of_id_number = year[2:] + str(int(month) + 20) + day # new id numbers (since 2000)
+        first_part_of_id_number = year[2:] + str(int(month) + 20) + day # a pattern for new id numbers (since 2000)
     
-    id_number = first_part_of_id_number + second_part_of_id_number
+    id_number = first_part_of_id_number + second_part_of_id_number # combining two parts of an id number
     
     return id_number
 
 
-def new_person():
+def adding_new_person():
     print("""Adding a person to the list
 Please fill all data according to instuctions given.""")
     title = choosing_title()
@@ -178,7 +175,7 @@ Please fill all data according to instuctions given.""")
     surname = authentication_of_data(regex_string_value, surname_choice)
 
     gender = choosing_gender()
-    birthdate = birthdate_authentication(regex_birthday_validation)
+    birthdate = birthdate_authentication(regex_date_validation)
     
     profession_choice = input("Insert a profession: ")
     profession = authentication_of_data(regex_string_value, profession_choice)
@@ -219,17 +216,17 @@ Please fill all data according to instuctions given.""")
         expiration_date
     )
 
-    dict_of_added_people[Person.count] = new_person_object # adding a person to a dict
+    dict_of_added_people[Person.count] = new_person_object # adding a new person to a dict
     print(new_person_object)
     
 
 def main():
     while True:
-        adding_new_person = input("Do you want to add a new person to the list?(y/n): ").lower()
-        if adding_new_person == "y":
-            new_person()
-        elif adding_new_person == "n":
-            saving_to_excel(dict_of_added_people, excel_file)
+        user_choice = input("Do you want to add a new person to the list?(y/n): ").lower()
+        if user_choice == "y":
+            adding_new_person()
+        elif user_choice == "n":
+            saving_to_excel(dict_of_added_people, excel_file) 
             sending_email(dict_of_added_people, email, email, excel_file)
             input('''Data has been saved to an excel file and send to your e-mail
 Enter a random value to exit the program: ''')
@@ -238,6 +235,6 @@ Enter a random value to exit the program: ''')
             print("Incorrect value. Try again.")
             continue
 
-main()
 
-#TODO: zmiana źle wprowadzonych danych - czy da się to jakoś łatwo zrobić, jak nie to zacząć już pytest, bo skończone (ewentualnie pomyśleć nad multithreading)
+if __name__ == "__main__":
+    main()
