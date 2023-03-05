@@ -5,30 +5,36 @@ import pytest
 def class_object():
     return Calculator(10)
 
+
 @pytest.fixture
 def calculator_minus_ten():
     class_object = Calculator(-10)
     return class_object.number
+
 
 @pytest.fixture
 def calculator_minus_five():
     class_object = Calculator(-5)
     return class_object.number
 
+
 @pytest.fixture
 def calculator_zero():
     class_object = Calculator()
     return class_object.number
+
 
 @pytest.fixture
 def calculator_five():
     class_object = Calculator(5)
     return class_object.number
 
+
 @pytest.fixture
 def calculator_ten():
     class_object = Calculator(10)
     return class_object.number
+
 
 def test_addition(
         calculator_minus_ten,
@@ -44,6 +50,7 @@ def test_addition(
     assert calculator_minus_ten + 10 == 0
     assert calculator_ten + 50 == 60
 
+
 def test_subtraction(
         calculator_minus_ten,
         calculator_minus_five,
@@ -57,6 +64,7 @@ def test_subtraction(
     assert calculator_zero - 10 == -10
     assert calculator_minus_ten - 20 == -30
     assert calculator_ten -5 == 5
+
 
 def test_multiplication(
         calculator_minus_ten,
@@ -72,6 +80,7 @@ def test_multiplication(
     assert calculator_minus_ten * 2.5 == -25
     assert calculator_ten * 7.5 == 75
 
+
 def test_division(
         calculator_minus_ten,
         calculator_minus_five,
@@ -86,9 +95,11 @@ def test_division(
     assert calculator_minus_ten / 10 == -1
     assert calculator_ten / 5 == 2
 
+
 def test_division_by_zero(calculator_five):
     with pytest.raises(ZeroDivisionError):
         calculator_five / 0
+
 
 def test_list_of_values(class_object):
     class_object + 10
@@ -127,6 +138,7 @@ def test_list_of_values(class_object):
         1000
     ]
 
+
 def test_dict_of_values(class_object):
     class_object + 30
     class_object - 30
@@ -147,6 +159,7 @@ def test_dict_of_values(class_object):
         7: 2,
         8: 600
     }
+
 
 def test_sum_and_count_calls(class_object):
     class_object + 30

@@ -42,12 +42,3 @@ class Calculator:
     def average(self):
         return sum(self.list_of_values) / len(self.list_of_values)
 
-        
-object = Calculator()
-print(object + 10)
-print(object.list_of_values, object.dict_of_values, object.sum)
-print(object - 5)
-print(object.list_of_values, object.dict_of_values, object.sum)
-print(object.average())
-
-#TODO: args, kwargs, dekoratory, setname, getname (poczytać jeszcze z tej książki co mam napisane) i napisać później pytesta
