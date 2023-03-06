@@ -459,4 +459,5 @@ Press 2 to change manager's/employee's last name
         print("Incorrect value! Try again.")
         menu()
 
-menu()
+if __name__ == "__main__":
+    menu()
