@@ -4,8 +4,6 @@
 # myslales o tym, zeby moze zrobic jeszcze klase, ktora przedstawi firme?
 # mialaby tam swoich pracowników i większość tych metod, krore zdefiniowałeś byłoby
 # jej częścią?
-
-
 import sys
 import re
 
